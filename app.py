@@ -757,7 +757,7 @@ def delete_resume(resume_id):
 
 @app.errorhandler(413)
 def too_large(e):
-    return jsonify(error="File is too large. Maximum size is 5 MB."), 413
+    return jsonify(error="File is too large. Maximum size is 4 MB."), 413
 
 
 @app.errorhandler(404)
