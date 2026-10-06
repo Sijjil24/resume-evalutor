@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Contact · Resumsky{% endblock %}
+{% block content %}
+<style>
+  .contact-form { display: grid; gap: 1rem; margin-top: 1.25rem; }
+  .contact-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .95rem; }
+  .contact-form input,
+  .contact-form textarea {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: 1px solid rgba(128, 128, 128, .4);
+    border-radius: 8px;
+    padding: .7rem .85rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .contact-form textarea { min-height: 150px; resize: vertical; }
+  .contact-form input:focus,
+  .contact-form textarea:focus { outline: 2px solid #00A98F; outline-offset: 1px; }
+  .contact-form .hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+  .contact-form .count { font-weight: 400; font-size: .8rem; opacity: .7; }
+</style>
+
+<section class="page-intro container">
+  <span class="eyebrow">Contact</span>
+  <h1>We’re happy to <em>hear from you.</em></h1>
+  <p class="muted">Questions, feedback, or something that didn’t work as expected? Send us a message and we’ll get back to you.</p>
+</section>
+
+<section class="container contact-card card">
+  <span class="contact-symbol" aria-hidden="true">↗</span>
+  <h2>Send us a message</h2>
+  <p class="muted">Fill in the form below. We read every message.</p>
+
+  <form class="contact-form" method="post" action="{{ url_for('contact') }}">
+    <!-- Honeypot: hidden from real users, bots fill it in -->
+    <div class="hp" aria-hidden="true">
+      <label>Leave this empty
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
+      </label>
+    </div>
+
+    <label>Your name
+      <input type="text" name="name" value="{{ form.name }}" maxlength="80" required>
+    </label>
+
+    <label>Your email
+      <input type="email" name="email" value="{{ form.email }}" maxlength="120" required>
+    </label>
+
+    <label>Message
+      <textarea name="message" maxlength="2000" required>{{ form.message }}</textarea>
+      <span class="count">Up to 2000 characters</span>
+    </label>
+
+    <div><button class="btn" type="submit">Send message</button></div>
+  </form>
+
+  {% if support_email %}
+  <p class="muted" style="margin-top:1.5rem;">
+    Prefer email? Write to <a href="mailto:{{ support_email }}">{{ support_email }}</a>.
+  </p>
+  {% endif %}
+</section>
+{% endblock %}

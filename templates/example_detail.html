@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ example.title }} resume example · Resumsky{% endblock %}
+{% block content %}
+<section class="page-intro container"><a class="back-link" href="{{ url_for('examples') }}">← All role examples</a><span class="eyebrow">ROLE EXAMPLE</span><h1>{{ example.title }} <em>resume ideas.</em></h1><p class="muted">{{ example.intro }}</p></section>
+<section class="container example-detail-grid">
+  <article class="card example-content"><span class="eyebrow">SAMPLE EXPERIENCE BULLETS</span><p class="muted">Adapt these structures to describe your own work. Add real outcomes and details when you can support them.</p><ul>{% for bullet in example.bullets %}<li>{{ bullet }}</li>{% endfor %}</ul><div class="example-callout"><b>A useful structure</b><p>Start with an action, explain the work, then add a real result or reason it mattered.</p></div></article>
+  <aside class="card example-skills"><span class="eyebrow">SKILLS TO CONSIDER</span><p class="muted">Include only skills you can speak to with confidence.</p><div class="skill-chip-list">{% for skill in example.skills %}<span>{{ skill }}</span>{% endfor %}</div><a class="btn block" href="{{ url_for('template_gallery') }}">Choose a resume template</a></aside>
+</section>
+{% endblock %}

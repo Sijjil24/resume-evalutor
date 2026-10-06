@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Page not found · Resumsky{% endblock %}
+{% block content %}
+<section class="container error-page"><span class="error-code">404</span><span class="eyebrow">NOT THE PAGE YOU WERE LOOKING FOR</span><h1>Let’s get you <em>back on track.</em></h1><p class="muted">That page may have moved, or the link may be out of date.</p><div><a class="btn" href="{{ url_for('landing') }}">Back to home</a><a class="text-link" href="{{ url_for('template_gallery') }}">Browse templates <span aria-hidden="true">→</span></a></div></section>
+{% endblock %}

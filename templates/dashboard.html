@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Resumsky{% endblock %}
+{% block content %}
+<div class="container dashboard-page">
+  <div class="dashboard-intro">
+    <div><span class="eyebrow">YOUR WORKSPACE</span><h1>Good to see you, {{ current_user.name }}.</h1>
+      <p class="muted">A few thoughtful edits can make all the difference. Start with a resume review or build a new draft.</p>
+      <div class="dashboard-actions"><a class="btn small" href="{{ url_for('template_gallery') }}">Build a resume <span aria-hidden="true">→</span></a><a class="text-link" href="{{ url_for('resumes') }}">My resumes</a></div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="card stat-card"><div class="stat-label">Resumes reviewed</div><div class="stat">{{ total }}</div><span class="stat-detail">Your review history, all in one place.</span></div>
+    <div class="card stat-card"><div class="stat-label">Personal best</div><div class="stat">{{ best if best is not none else "–" }}{% if best is not none %}<span class="stat-unit"> / 100</span>{% endif %}</div><span class="stat-detail">Keep refining. You’re making progress.</span></div>
+  </div>
+
+  <div class="card upload-card">
+    <div class="upload-heading"><span class="eyebrow">LET’S GET STARTED</span><h2>Review a resume</h2><p class="muted">Add a target role if you have one in mind. We’ll tailor your feedback to it.</p></div>
+    <form id="analyze-form">
+      <label for="role">What role are you interested in? <span class="muted">(optional)</span></label>
+      <input type="text" id="role" name="role" placeholder="e.g. Product designer" />
+
+      <label id="drop" class="drop" for="file">
+        <span class="upload-icon" aria-hidden="true">↑</span>
+        <span id="drop-text"><strong>Choose a file</strong> or drag it here<br><small>PDF or DOCX · Maximum 5 MB</small></span>
+        <input type="file" id="file" name="resume" accept=".pdf,.docx" />
+      </label>
+
+      <button class="btn block" id="btn" type="submit">Get my review <span aria-hidden="true">→</span></button>
+      <div class="error" id="error"></div>
+    </form>
+    <p class="upload-privacy"><span aria-hidden="true">✓</span> Your original file is deleted immediately after analysis.</p>
+  </div>
+
+  {% if recent %}
+  <div class="card recent-card">
+    <div class="head"><div><span class="eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Recent reviews</h2></div><a href="{{ url_for('history') }}" class="text-link">View all <span aria-hidden="true">→</span></a></div>
+    {% for a in recent %}
+    <div class="row">
+      <div><b>{{ a.filename }}</b><div class="muted">{{ a.created_at.strftime('%d %b %Y') }}</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span class="badge">{{ a.score }}</span>
+        <a class="btn small ghost" href="{{ url_for('report', analysis_id=a.id) }}">Open</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

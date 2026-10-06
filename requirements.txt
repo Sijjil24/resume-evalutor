@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Authlib
+requests
+python-dotenv
+itsdangerous
+langchain-openai
+langchain-core
+pydantic
+pypdf
+python-docx
+psycopg2-binary
+gunicorn

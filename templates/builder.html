@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Resume builder · Resumsky{% endblock %}
+{% block content %}
+{% set data = r.data %}
+<section class="builder-shell container" id="resume-builder" data-resume-id="{{ r.id }}" data-save-url="{{ url_for('save_resume', resume_id=r.id) }}" data-helper-url="{{ url_for('builder_helper', resume_id=r.id) }}">
+  <div class="builder-topbar"><div><a class="back-link" href="{{ url_for('resumes') }}">← My resumes</a><span class="save-state" id="save-state" aria-live="polite">Saved</span></div><div class="builder-actions"><button class="btn small ghost" type="button" id="save-resume">Save</button><button class="btn small" type="button" onclick="window.print()">Print / Save PDF <span aria-hidden="true">↗</span></button></div></div>
+  <div class="builder-title"><label class="eyebrow" for="resume-title">RESUME NAME</label><input id="resume-title" type="text" maxlength="120" value="{{ r.title }}"></div>
+
+  <div class="builder-progress" aria-label="Resume sections">
+    {% for step in ["Contact", "Experience", "Education", "Skills", "Summary", "Finish"] %}
+    <button type="button" class="progress-step{% if loop.first %} active{% endif %}" data-step-button="{{ loop.index0 }}"><span>{{ "%02d"|format(loop.index) }}</span><b>{{ step }}</b></button>
+    {% endfor %}
+    <div class="progress-track"><span id="progress-fill"></span></div>
+  </div>
+
+  <div class="builder-layout">
+    <div class="editor-panel">
+      <section class="editor-step active" data-step="0">
+        <span class="eyebrow">STEP 01 · CONTACT</span><h1>Start with the basics.</h1><p class="muted">Add the details employers need to reach you.</p>
+        <div class="form-grid">
+          <div class="field-wide"><label for="name">Full name</label><input id="name" data-field="name" type="text" maxlength="100" value="{{ data.get('name', '') }}"></div>
+          <div class="field-wide"><label for="title">Professional title</label><input id="title" data-field="title" type="text" maxlength="120" placeholder="e.g. Product designer" value="{{ data.get('title', '') }}"></div>
+          <div><label for="email">Email</label><input id="email" data-field="email" type="email" maxlength="120" value="{{ data.get('email', '') }}"></div>
+          <div><label for="phone">Phone</label><input id="phone" data-field="phone" type="tel" maxlength="40" value="{{ data.get('phone', '') }}"></div>
+          <div><label for="location">Location</label><input id="location" data-field="location" type="text" maxlength="100" placeholder="City, Country" value="{{ data.get('location', '') }}"></div>
+          <div><label for="links">Website or LinkedIn</label><input id="links" data-field="links" type="text" maxlength="250" placeholder="linkedin.com/in/you" value="{{ data.get('links', '') }}"></div>
+        </div>
+        <label class="photo-upload">Optional profile photo<input id="photo-input" type="file" accept="image/png,image/jpeg,image/webp"><span>Choose a small JPG, PNG, or WebP image (100 KB max).</span></label>
+      </section>
+
+      <section class="editor-step" data-step="1" hidden>
+        <span class="eyebrow">STEP 02 · EXPERIENCE</span><h1>Show what you’ve done.</h1><p class="muted">Use specific actions and real outcomes. You can add more than one role.</p>
+        <div id="experience-list">{% for item in data.get('experience', []) %}<fieldset class="repeat-card" data-group="experience"><legend>Experience {{ loop.index }}</legend><button class="remove-entry" type="button" aria-label="Remove experience">Remove</button><div class="form-grid"><div><label>Job title</label><input data-key="role" type="text" value="{{ item.get('role', '') }}"></div><div><label>Company</label><input data-key="company" type="text" value="{{ item.get('company', '') }}"></div><div><label>Location</label><input data-key="location" type="text" value="{{ item.get('location', '') }}"></div><div class="form-grid"><div><label>Start</label><input data-key="start" type="text" placeholder="2022" value="{{ item.get('start', '') }}"></div><div><label>End</label><input data-key="end" type="text" placeholder="Present" value="{{ item.get('end', '') }}"></div></div><div class="field-wide"><label>What did you accomplish?</label><textarea data-key="bullets" rows="4" placeholder="One achievement per line">{{ item.get('bullets', '') }}</textarea><button class="helper-button" type="button" data-helper="bullet">Improve this bullet</button></div></div></fieldset>{% endfor %}</div>
+        <button class="add-entry" type="button" data-add="experience">+ Add experience</button>
+      </section>
+
+      <section class="editor-step" data-step="2" hidden>
+        <span class="eyebrow">STEP 03 · EDUCATION</span><h1>Add your education.</h1><p class="muted">Include relevant degrees, training, or credentials.</p>
+        <div id="education-list">{% for item in data.get('education', []) %}<fieldset class="repeat-card" data-group="education"><legend>Education {{ loop.index }}</legend><button class="remove-entry" type="button" aria-label="Remove education">Remove</button><div class="form-grid"><div class="field-wide"><label>Degree or qualification</label><input data-key="degree" type="text" value="{{ item.get('degree', '') }}"></div><div class="field-wide"><label>School</label><input data-key="school" type="text" value="{{ item.get('school', '') }}"></div><div><label>Start</label><input data-key="start" type="text" value="{{ item.get('start', '') }}"></div><div><label>End</label><input data-key="end" type="text" value="{{ item.get('end', '') }}"></div></div></fieldset>{% endfor %}</div>
+        <button class="add-entry" type="button" data-add="education">+ Add education</button>
+      </section>
+
+      <section class="editor-step" data-step="3" hidden>
+        <span class="eyebrow">STEP 04 · SKILLS</span><h1>Make your strengths easy to find.</h1><p class="muted">Add relevant skills separated by commas. Keep them accurate and specific.</p>
+        <label for="skills">Skills</label><textarea id="skills" data-field="skills" rows="5" placeholder="Research, Figma, usability testing">{{ data.get('skills', '') }}</textarea>
+        <label for="target-role">Target job title <span class="muted">(for suggestions)</span></label><input id="target-role" type="text" maxlength="120" placeholder="e.g. Product designer" value="{{ data.get('title', '') }}">
+        <button class="helper-button" type="button" data-helper="skills">Suggest skills for this job title</button>
+        <h2 class="subsection-heading">Projects</h2><p class="muted">Add selected projects that show your work.</p>
+        <div id="projects-list">{% for project in data.get('projects', []) %}<fieldset class="repeat-card" data-group="projects"><legend>Project {{ loop.index }}</legend><button class="remove-entry" type="button" aria-label="Remove project">Remove</button><label>Project name</label><input data-key="name" type="text" value="{{ project.get('name', '') }}"><label>Link <span class="muted">(optional)</span></label><input data-key="link" type="text" value="{{ project.get('link', '') }}"><label>What did you do?</label><textarea data-key="description" rows="3">{{ project.get('description', '') }}</textarea></fieldset>{% endfor %}</div>
+        <button class="add-entry" type="button" data-add="projects">+ Add a project</button>
+        <div id="custom-section-list">{% for section in data.get('custom_sections', []) %}<fieldset class="repeat-card custom-section" data-group="custom_sections"><legend>Custom section</legend><button class="remove-entry" type="button" aria-label="Remove custom section">Remove</button><label>Section title</label><input data-key="title" type="text" value="{{ section.get('title', '') }}"><label>Details</label><textarea data-key="content" rows="3">{{ section.get('content', '') }}</textarea></fieldset>{% endfor %}</div>
+        <button class="add-entry" type="button" data-add="custom_sections">+ Add a custom section</button>
+      </section>
+
+      <section class="editor-step" data-step="4" hidden>
+        <span class="eyebrow">STEP 05 · SUMMARY</span><h1>Put your story into words.</h1><p class="muted">A short introduction helps employers understand the value you bring.</p>
+        <label for="summary">Professional summary</label><textarea id="summary" data-field="summary" rows="6" placeholder="A few lines about your experience, strengths, and direction">{{ data.get('summary', '') }}</textarea>
+        <button class="helper-button" type="button" data-helper="summary">Write my summary</button>
+        <p class="helper-disclaimer">AI suggestions are drafts. Review them and make sure they describe you accurately.</p>
+      </section>
+
+      <section class="editor-step" data-step="5" hidden>
+        <span class="eyebrow">STEP 06 · FINISH</span><h1>Make the details yours.</h1><p class="muted">Choose a look, check your page length, and print your resume to PDF.</p>
+        <label for="template-select">Template</label><select id="template-select" data-setting="template">{% for template in templates %}<option value="{{ template.id }}"{% if data.get('template', 'classic') == template.id %} selected{% endif %}>{{ template.name }} — {{ template.category }}</option>{% endfor %}</select>
+        <label>Accent color</label><div class="swatch-row">{% for color in ["#1E3A5F", "#0F766E", "#7F1D1D", "#374151", "#166534"] %}<button type="button" class="color-swatch{% if data.get('accent', '#0F766E') == color %} selected{% endif %}" data-accent="{{ color }}" style="--swatch:{{ color }}" aria-label="Use {{ color }} accent"></button>{% endfor %}</div>
+        <div class="form-grid"><div><label for="font-select">Resume font</label><select id="font-select" data-setting="font">{% for font in ["Lato", "Source Sans", "Merriweather"] %}<option value="{{ font }}"{% if data.get('font', 'Lato') == font %} selected{% endif %}>{{ font }}</option>{% endfor %}</select></div><div><label for="font-size">Font size</label><select id="font-size" data-setting="font_size">{% for size in [9, 10, 11, 12] %}<option value="{{ size }}"{% if data.get('font_size', 10) == size %} selected{% endif %}>{{ size }} pt</option>{% endfor %}</select></div><div><label for="spacing-select">Spacing</label><select id="spacing-select" data-setting="spacing">{% for space in ["compact", "normal", "relaxed"] %}<option value="{{ space }}"{% if data.get('spacing', 'normal') == space %} selected{% endif %}>{{ space|title }}</option>{% endfor %}</select></div></div>
+        <div class="section-order"><h2>Section order</h2><p class="muted">Move sections to suit your story.</p><div id="section-order-list">{% set section_order = data.get('section_order', ['summary', 'experience', 'education', 'projects', 'skills']) %}{% for section in section_order %}<div class="order-item" data-order="{{ section }}"><span>{{ section|title|replace('_', ' ') }}</span><button type="button" data-move="-1" aria-label="Move {{ section }} up">↑</button><button type="button" data-move="1" aria-label="Move {{ section }} down">↓</button></div>{% endfor %}{% if 'custom_sections' not in section_order %}<div class="order-item" data-order="custom_sections"><span>Custom sections</span><button type="button" data-move="-1" aria-label="Move custom sections up">↑</button><button type="button" data-move="1" aria-label="Move custom sections down">↓</button></div>{% endif %}</div></div>
+        <div class="page-warning" id="page-warning" aria-live="polite"></div>
+      </section>
+      <div class="step-controls"><button class="btn ghost" type="button" id="step-back" disabled>← Back</button><span id="step-count">Step 1 of 6</span><button class="btn" type="button" id="step-next">Next step →</button></div>
+    </div>
+
+    <aside class="preview-panel"><div class="preview-panel-head"><span class="eyebrow">LIVE PREVIEW</span><span class="page-counter" id="page-counter">About 1 page</span></div>
+      <article id="resume-paper" class="resume-document template-{{ data.get('template', 'classic') }} spacing-{{ data.get('spacing', 'normal') }}" style="--resume-accent:{{ data.get('accent', '#0F766E') }};--resume-font-size:{{ data.get('font_size', 10) }}pt;font-family:'{{ data.get('font', 'Lato') }}',Arial,sans-serif;">
+        <header class="paper-contact"><img id="preview-photo" alt="" {% if data.get('photo') %}src="{{ data.get('photo') }}"{% else %}hidden{% endif %}><div><h2 data-preview="name">{{ data.get('name') or 'Your Name' }}</h2><p data-preview="title">{{ data.get('title') or 'Professional title' }}</p><div class="paper-contact-details"><span data-preview="email">{{ data.get('email') }}</span><span data-preview="phone">{{ data.get('phone') }}</span><span data-preview="location">{{ data.get('location') }}</span><span data-preview="links">{{ data.get('links') }}</span></div></div></header>
+        <div class="paper-preview-sections">
+          <section data-preview-section="summary"{% if not data.get('summary') %} hidden{% endif %}><h3>Profile</h3><p data-preview="summary">{{ data.get('summary', '') }}</p></section>
+          <section data-preview-section="experience"><h3>Experience</h3><div id="preview-experience">{% for item in data.get('experience', []) %}{% if item.get('role') or item.get('company') %}<div class="preview-entry"><div><b>{{ item.get('role', '') }}</b><span>{{ item.get('start', '') }}{% if item.get('end') %} — {{ item.get('end') }}{% endif %}</span></div><small>{{ item.get('company', '') }}{% if item.get('location') %} · {{ item.get('location') }}{% endif %}</small><p>{{ item.get('bullets', '') }}</p></div>{% endif %}{% endfor %}</div></section>
+          <section data-preview-section="education"><h3>Education</h3><div id="preview-education">{% for item in data.get('education', []) %}{% if item.get('degree') or item.get('school') %}<div class="preview-entry"><div><b>{{ item.get('degree', '') }}</b><span>{{ item.get('start', '') }}{% if item.get('end') %} — {{ item.get('end') }}{% endif %}</span></div><small>{{ item.get('school', '') }}</small></div>{% endif %}{% endfor %}</div></section>
+          <section data-preview-section="skills"{% if not data.get('skills') %} hidden{% endif %}><h3>Skills</h3><p data-preview="skills">{{ data.get('skills', '') }}</p></section>
+          <section data-preview-section="projects" hidden><h3>Projects</h3><div id="preview-projects"></div></section>
+          <section data-preview-section="custom_sections"><div id="preview-custom">{% for section in data.get('custom_sections', []) %}<div class="custom-preview-section"><h3>{{ section.get('title', 'Additional information') }}</h3><p>{{ section.get('content', '') }}</p></div>{% endfor %}</div></section>
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+<div class="builder-toast" id="builder-toast" role="status" aria-live="polite"></div>
+{% endblock %}

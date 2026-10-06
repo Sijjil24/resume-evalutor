@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>{% block title %}Resumsky · Build a Resume That Gets You Hired{% endblock %}</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem("theme");
+      var preferred = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", saved || preferred);
+    })();
+  </script>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg', v='20261004b') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='20261004b') }}" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="{{ url_for('landing') }}" aria-label="Resumsky home">
+        <span class="logo-name">Resum<span class="logo-accent">sky</span></span>
+      </a>
+
+      <button class="nav-toggle" id="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        {% if current_user.is_authenticated %}
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button">Resumes <svg viewBox="0 0 10 6" width="10" height="6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <a href="{{ url_for('resumes') }}">My Resumes</a>
+              <a href="{{ url_for('template_gallery') }}">Templates</a>
+              <a href="{{ url_for('examples') }}">Examples</a>
+            </div>
+          </div>
+          <a href="{{ url_for('job_match') }}">Job Match</a>
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('history') }}">History</a>
+          <a href="{{ url_for('account') }}">Account</a>
+          <a href="{{ url_for('logout') }}" class="nav-signout">Log out</a>
+        {% else %}
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button">RESUMES <svg viewBox="0 0 10 6" width="10" height="6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <a href="{{ url_for('template_gallery') }}">Resume Templates</a>
+              <a href="{{ url_for('examples') }}">Resume Examples</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button">CAREER RESOURCES <svg viewBox="0 0 10 6" width="10" height="6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+            <div class="nav-dropdown-menu">
+              <a href="{{ url_for('career_tips') }}">Career Tips</a>
+              <a href="{{ url_for('faq') }}">FAQ</a>
+            </div>
+          </div>
+          <a href="{{ url_for('contact') }}" class="nav-text-link">CONTACT US</a>
+          <a href="{{ url_for('login') }}" class="nav-text-link">SIGN IN</a>
+        {% endif %}
+        <button id="theme-toggle" class="theme-switch" type="button" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <span class="theme-switch-thumb" aria-hidden="true">
+            <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+            <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" hidden><path d="M20.2 15.1A8.6 8.6 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/></svg>
+          </span>
+        </button>
+        {% if not current_user.is_authenticated %}
+          <a class="btn nav-cta" href="{{ url_for('signup') }}">Create Resume</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="flash {{ category }}" role="status">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="{{ url_for('landing') }}" aria-label="Resumsky home">
+          <span class="logo-name">Resum<span class="logo-accent">sky</span></span>
+        </a>
+        <p>Build a resume that gets you noticed. Free AI-powered tools for your career.</p>
+        <span class="privacy-note"><span aria-hidden="true">✓</span> Uploaded files are deleted after analysis.</span>
+      </div>
+      <div><h2>Build</h2><a href="{{ url_for('template_gallery') }}">Resume templates</a><a href="{{ url_for('examples') }}">Resume examples</a></div>
+      <div><h2>Explore</h2><a href="{{ url_for('career_tips') }}">Career tips</a><a href="{{ url_for('faq') }}">FAQ</a><a href="{{ url_for('contact') }}">Contact</a></div>
+      <div><h2>Legal</h2><a href="{{ url_for('privacy') }}">Privacy</a><a href="{{ url_for('terms') }}">Terms</a></div>
+    </div>
+    <div class="container footer-bottom"><span>© {{ now_year }} Resumsky</span><span>AI-powered resume building for every career stage.</span></div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js', v='20261004b') }}"></script>
+</body>
+</html>

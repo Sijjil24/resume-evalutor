@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Report · Resumsky{% endblock %}
+{% block content %}
+{% macro tone(n) -%}{% if n >= 75 %}good{% elif n >= 50 %}warn{% else %}bad{% endif %}{%- endmacro %}
+{% set t = tone(a.score) %}
+{% set highs = d.issues | selectattr('priority', 'equalto', 'High') | list | length %}
+{% set ats_total = d.ats_checks | length %}
+{% set ats_pass = d.ats_checks | selectattr('passed') | list | length %}
+
+<div class="container">
+  <div class="head no-print">
+    <a href="{{ url_for('history') }}" class="muted">← All reports</a>
+    <div style="display:flex;gap:10px">
+      <button class="btn small ghost" onclick="window.print()">Download PDF</button>
+      <form method="POST" action="{{ url_for('delete_report', analysis_id=a.id) }}"
+            onsubmit="return confirm('Delete this report?')">
+        <button class="btn small danger" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <p class="muted" style="margin:0 0 12px">
+    {{ a.filename }} · {{ a.created_at.strftime('%d %b %Y') }}
+  </p>
+
+  <!-- Overview -->
+  <div class="card hero-card">
+    <div class="score-col">
+      <div class="ring" style="--p: {{ a.score }}; --c: var(--{{ t }})"><div>{{ a.score }}</div></div>
+      <span class="verdict {{ t }}">{{ d.verdict or 'Report' }}</span>
+    </div>
+    <div>
+      <h2>{{ a.role or 'Resume' }} review</h2>
+      <p class="muted" style="margin:0">{{ d.summary }}</p>
+      <div class="mini">
+        <div><b>{{ highs }}</b><span>High-priority fixes</span></div>
+        <div><b>{{ d.detected_skills | length }}</b><span>Skills matched</span></div>
+        <div><b>{{ ats_pass }}/{{ ats_total }}</b><span>ATS checks passed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score breakdown -->
+  {% if d.category_scores %}
+  <div class="card">
+    <h3>Score breakdown</h3>
+    {% for c in d.category_scores %}
+    <div class="cat">
+      <div class="cat-top"><b>{{ c.name }}</b><span>{{ c.score }}/100</span></div>
+      <div class="track"><div class="fill {{ tone(c.score) }}" style="width: {{ c.score }}%"></div></div>
+      <p class="muted">{{ c.comment }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Strengths and ATS -->
+  <div class="two">
+    <div class="card">
+      <h3>What's working</h3>
+      {% for s in d.strengths %}
+      <div class="check"><span class="ic ok">✓</span><span>{{ s }}</span></div>
+      {% endfor %}
+    </div>
+    <div class="card">
+      <h3>ATS checks</h3>
+      {% for c in d.ats_checks %}
+      <div class="check">
+        <span class="ic {{ 'ok' if c.passed else 'no' }}">{{ '✓' if c.passed else '✕' }}</span>
+        <span>{{ c.label }}{% if c.note %}<small>{{ c.note }}</small>{% endif %}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Priority fixes -->
+  {% if d.issues %}
+  <h3 class="section-title">Priority fixes</h3>
+  {% for i in d.issues %}
+  <div class="card issue {{ i.priority | lower }}">
+    <div class="issue-head">
+      <span class="prio {{ i.priority | lower }}">{{ i.priority }}</span>
+      <b>{{ i.title }}</b>
+    </div>
+    <p>{{ i.problem }}</p>
+    <p><b>Fix:</b> {{ i.fix }}</p>
+    {% if i.before and i.after %}
+    <div class="ba">
+      <div class="before"><small>BEFORE</small>{{ i.before }}</div>
+      <div class="after"><small>AFTER</small>{{ i.after }}</div>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <!-- Skills -->
+  <div class="card">
+    <h3>Skills matched ({{ d.detected_skills | length }})</h3>
+    {% for s in d.detected_skills %}<span class="tag have">{{ s }}</span>{% endfor %}
+    <h3 style="margin-top:22px">Worth adding ({{ d.missing_skills | length }})</h3>
+    <p class="muted" style="margin-top:0">Only add skills you truly have.</p>
+    {% for s in d.missing_skills %}<span class="tag miss">{{ s }}</span>{% endfor %}
+  </div>
+
+  <p class="note">
+    AI-generated estimate based on the text extracted from your file. Use it as guidance, not a guarantee.
+  </p>
+</div>
+{% endblock %}

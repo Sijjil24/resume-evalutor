@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}History · Resumsky{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="head">
+    <h2 style="margin:0">Your reports</h2>
+    <a class="btn small" href="{{ url_for('dashboard') }}">+ New analysis</a>
+  </div>
+
+  {% if items %}
+  <div class="card">
+    {% for a in items %}
+    <div class="row">
+      <div>
+        <b>{{ a.filename }}</b>
+        <div class="muted">
+          {{ a.created_at.strftime('%d %b %Y') }}{% if a.role %} · {{ a.role }}{% endif %}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span class="badge">{{ a.score }}</span>
+        <a class="btn small ghost" href="{{ url_for('report', analysis_id=a.id) }}">Open</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card center">
+    <p class="muted">No reports yet. Analyze your first resume!</p>
+    <a class="btn" href="{{ url_for('dashboard') }}">Get started</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

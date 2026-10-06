@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Privacy · Resumsky{% endblock %}
+{% block content %}
+<article class="container legal-page"><span class="eyebrow">Last updated October 2026</span><h1>Privacy, in <em>plain language.</em></h1><p class="legal-lead">This page describes how this Resumsky project handles information. It is a plain-language project notice, not legal advice or a substitute for a formal privacy review.</p>
+  <h2>Information you provide</h2><p>When you create an account, the app stores your name, email address, and a password hash. Resumes created with the builder and AI review reports are stored in the app’s database and associated with your account.</p>
+  <h2>Uploaded files and AI processing</h2><p>When you request a resume review, the uploaded PDF or DOCX is temporarily saved so its text can be extracted and analyzed. The original file is removed when processing completes, including when processing fails. Extracted resume text is sent to the configured AI provider (the current integration uses Groq) to generate feedback. The report is then saved to your account. For Job Match, the saved resume text and any job description you paste are sent for processing; the raw job description is not saved by this app, but the resulting review report is.</p>
+  <h2>Retention and deletion</h2><p>Saved builder resumes and reports remain in the app until you delete them or delete your account. Account deletion removes the account and its related saved resumes and reports from the application database. Backups, hosting logs, or provider retention may be governed by the environment in which this project is deployed.</p>
+  <h2>Cookies and browser storage</h2><p>The app uses its login session to keep you signed in. Your selected light or dark appearance is stored in your browser’s local storage.</p>
+  <h2>Your choices</h2><p>You can delete individual resumes and review reports in your account. You can also change your profile name and password or delete your account in Account settings.</p>
+  <h2>Use care with AI suggestions</h2><p>AI feedback can be incomplete or incorrect. Review suggestions carefully and do not include claims, skills, or achievements that are not true about you.</p>
+  <h2>Questions</h2><p>See the <a href="{{ url_for('contact') }}">Contact page</a> for the contact method configured by this installation.</p>
+</article>
+{% endblock %}

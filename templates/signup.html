@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sign up · Resumsky{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card auth">
+    <h2>Create your account</h2>
+    <p class="muted">Save every report and track your progress.</p>
+    <form method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+      <label for="password">Password (8+ characters)</label>
+      <input type="password" id="password" name="password" minlength="8" required />
+      <button class="btn block" type="submit">Sign up</button>
+    </form>
+    <p class="muted center" style="margin-top:16px">
+      Already have an account? <a href="{{ url_for('login', next=request.args.get('next', '')) }}"><b>Log in</b></a>
+    </p>
+  </div>
+</div>
+{% endblock %}

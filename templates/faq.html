@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Frequently asked questions · Resumsky{% endblock %}
+{% block content %}
+<section class="page-intro container"><span class="eyebrow">Frequently asked questions</span><h1>A little more <em>clarity.</em></h1><p class="muted">Some things you may want to know before you begin.</p></section>
+<section class="container faq-page">
+  <details><summary>Is Resumsky free?</summary><p>Yes. Resume building, saving resumes, templates, and AI review are currently free to use.</p></details>
+  <details><summary>What file types can I upload for review?</summary><p>Resumsky accepts PDF and DOCX files up to 5 MB. Scanned PDFs may not contain readable text and can’t always be analyzed.</p></details>
+  <details><summary>What happens to my uploaded resume file?</summary><p>The temporary original file is removed after analysis finishes. The resulting report is stored with your account until you delete it. Resumes you create in the builder are saved to your account until you delete them.</p></details>
+  <details><summary>Does Resumsky guarantee interviews or a job?</summary><p>No. The review is an AI-generated estimate and can make mistakes. Use it as one source of feedback, verify suggestions, and make sure your final resume reflects your actual experience.</p></details>
+  <details><summary>Can I download my resume?</summary><p>Use the Print / Save PDF button in the builder and choose “Save as PDF” in your browser’s print dialog. DOCX export is not available yet.</p></details>
+  <details><summary>Can I delete my data?</summary><p>You can delete individual saved resumes and reports from your account. Account settings also lets you delete your account and the resumes and reports attached to it.</p></details>
+  <div class="faq-contact">Still have a question? <a class="text-link" href="{{ url_for('contact') }}">Contact us <span aria-hidden="true">→</span></a></div>
+</section>
+{% endblock %}

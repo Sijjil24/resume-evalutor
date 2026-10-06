@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Resume examples by role · Resumsky{% endblock %}
+{% block content %}
+<section class="page-intro container"><span class="eyebrow">Start with an example</span><h1>Good ideas for <em>your kind of work.</em></h1><p class="muted">Use these role-specific examples to find a clear way to talk about the work you’ve done. Adapt the wording to stay true to your own experience.</p></section>
+<section class="container example-grid">
+  {% for role_id, example in examples.items() %}
+  <a class="example-card" href="{{ url_for('example_detail', role_id=role_id) }}">
+    <span class="example-index">0{{ loop.index }}</span><span class="example-icon" aria-hidden="true">{% if role_id == 'software-engineer' %}&lt;/&gt;{% elif role_id == 'teacher' %}A+{% else %}+{% endif %}</span>
+    <h2>{{ example.title }}</h2><p>{{ example.intro }}</p><span class="text-link">See the example <span aria-hidden="true">→</span></span>
+  </a>
+  {% endfor %}
+</section>
+<section class="container examples-disclaimer"><p><b>Make every example your own.</b> These sample bullets are starting points, not claims about your experience. Replace them with details you can confidently discuss.</p><a class="btn" href="{{ url_for('template_gallery') }}">Browse templates <span aria-hidden="true">→</span></a></section>
+{% endblock %}

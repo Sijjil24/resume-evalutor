@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Job match · Resumsky{% endblock %}
+{% block content %}
+<section class="container app-page"><div class="page-title-row"><div><span class="eyebrow">A MORE FOCUSED REVIEW</span><h1>Job match</h1><p class="muted">Compare a saved resume with a target role and get feedback on what to bring forward.</p></div></div>
+  <section class="card job-match-card"><form method="POST"><label for="resume_id">Choose a saved resume</label><select id="resume_id" name="resume_id" required><option value="">Select a resume</option>{% for r in resumes %}<option value="{{ r.id }}">{{ r.title }}</option>{% endfor %}</select><label for="role">Target job title</label><input type="text" id="role" name="role" placeholder="e.g. Product designer" maxlength="120" required><label for="job_description">Job description <span class="muted">(optional)</span></label><textarea id="job_description" name="job_description" rows="6" maxlength="6000" placeholder="Paste the role description to get a more focused review."></textarea><p class="muted job-match-empty">Your resume text and the job description are sent to the configured AI provider to create the review. The report is saved in your history.</p><button class="btn" type="submit" {% if not resumes %}disabled{% endif %}>Check my match <span aria-hidden="true">→</span></button></form>{% if not resumes %}<p class="muted job-match-empty">Save a resume first to use Job Match. <a href="{{ url_for('template_gallery') }}">Choose a template</a>.</p>{% endif %}</section>
+</section>
+{% endblock %}

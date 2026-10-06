@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Resume templates · Resumsky{% endblock %}
+{% block content %}
+<section class="page-intro container">
+  <span class="eyebrow">A thoughtful first step</span>
+  <h1>Templates made for <em>your next move.</em></h1>
+  <p class="muted">Clean, readable starting points. Choose one, add your details, and make it yours.</p>
+</section>
+<section class="container gallery-section">
+  <div class="filter-row" role="group" aria-label="Filter resume templates">
+    {% for category in ["All", "Simple", "Modern", "Creative", "Professional"] %}
+    <button class="filter-chip{% if category == 'All' %} active{% endif %}" type="button" data-filter="{{ category }}">{{ category }}</button>
+    {% endfor %}
+  </div>
+  <div class="gallery-grid">
+    {% for template in templates %}
+    <article class="gallery-card" data-category="{{ template.category }}">
+      <div class="gallery-preview">
+        <div class="resume-thumb thumb-{{ template.id }}">
+          <div class="thumb-header"><span class="thumb-avatar">JD</span><span><b>Jordan Davis</b><small>Product designer</small></span></div>
+          <div class="thumb-columns"><div class="thumb-sidebar"><i></i><i></i><i></i><i></i><i></i></div><div class="thumb-main"><small>EXPERIENCE</small><b>Senior Product Designer</b><i></i><i></i><i class="half"></i><small>EDUCATION</small><b>B.A. Interaction Design</b><i></i><small>SELECTED WORK</small><i></i><i class="half"></i></div></div>
+        </div>
+        <a class="use-template" href="{{ url_for('use_template', template_id=template.id) }}">Use this template <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="gallery-card-copy"><div><h2>{{ template.name }}</h2><span>{{ template.category }}</span></div><p>{{ template.description }}</p></div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+<section class="container gallery-note"><span class="note-check" aria-hidden="true">✓</span><p>Every template is designed to keep the content readable and the layout focused on your experience.</p></section>
+{% endblock %}

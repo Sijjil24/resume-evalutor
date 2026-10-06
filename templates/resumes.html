@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}My resumes · Resumsky{% endblock %}
+{% block content %}
+<section class="container app-page">
+  <div class="page-title-row"><div><span class="eyebrow">YOUR WORKSPACE</span><h1>My resumes</h1><p class="muted">Your drafts stay here until you choose to delete them.</p></div><a class="btn" href="{{ url_for('template_gallery') }}">New resume <span aria-hidden="true">+</span></a></div>
+  {% if items %}
+  <div class="saved-resume-grid">{% for r in items %}<article class="saved-resume-card"><a class="saved-resume-preview" href="{{ url_for('builder', resume_id=r.id) }}"><div class="saved-paper"><b>{{ r.data.get('name') or 'Your Name' }}</b><span>{{ r.data.get('title') or 'Professional title' }}</span><i></i><i></i><i class="short"></i><small>EXPERIENCE</small><i></i><i class="short"></i><small>EDUCATION</small><i></i></div></a><div class="saved-resume-info"><div><b>{{ r.title }}</b><small>Updated {{ r.updated_at.strftime('%d %b %Y') }}</small></div><a class="btn small ghost" href="{{ url_for('builder', resume_id=r.id) }}">Edit</a></div><form method="POST" action="{{ url_for('delete_resume', resume_id=r.id) }}" onsubmit="return confirm('Delete this resume? This cannot be undone.')"><button class="delete-link" type="submit">Delete resume</button></form></article>{% endfor %}</div>
+  {% else %}
+  <div class="empty-state card"><span class="empty-mark" aria-hidden="true">R.</span><h2>No resumes yet</h2><p class="muted">Choose a template and start adding your experience. Your draft will be saved as you work.</p><a class="btn" href="{{ url_for('template_gallery') }}">Browse templates <span aria-hidden="true">→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

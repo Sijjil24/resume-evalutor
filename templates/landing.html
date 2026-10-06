@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block title %}Resumsky · Kickstart Your Career with a Powerful Resume{% endblock %}
+{% block content %}
+
+<!-- ========== HERO SECTION ========== -->
+<section class="rn-hero">
+  <div class="container rn-hero-inner">
+    <!-- Left: Copy -->
+    <div class="rn-hero-copy">
+      <h1>Build a Powerful Resume for Your Next Move.</h1>
+      <ul class="rn-hero-features">
+        <li>
+          <span class="rn-feat-icon rn-feat-icon--blue" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h10M7 12h6"/></svg>
+          </span>
+          Eye-catching resume templates.
+        </li>
+        <li>
+          <span class="rn-feat-icon rn-feat-icon--green" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>
+          </span>
+          Expert resume examples to get started.
+        </li>
+        <li>
+          <span class="rn-feat-icon rn-feat-icon--orange" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7l-8-4Z"/></svg>
+          </span>
+          Step-by-step process created by resume experts.
+        </li>
+      </ul>
+      <div class="rn-hero-cta">
+        <a class="rn-btn-primary" href="{{ url_for('template_gallery') }}">Build My Resume</a>
+        <a class="rn-btn-ghost" href="{{ url_for('examples') }}">
+          <span class="rn-play-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+          </span>
+          Watch Video
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Resume Preview Mock -->
+    <div class="rn-hero-preview" aria-label="Resume template preview">
+      <div class="rn-resume-card rn-resume-back"></div>
+      <div class="rn-resume-card rn-resume-front">
+        <div class="rn-rc-header">
+          <div class="rn-rc-initials">SW</div>
+          <div>
+            <div class="rn-rc-name">STELLA WALKER</div>
+            <div class="rn-rc-title">Product Designer</div>
+          </div>
+        </div>
+        <div class="rn-rc-divider"></div>
+        <div class="rn-rc-section">PROFESSIONAL SUMMARY</div>
+        <div class="rn-rc-lines"><i></i><i></i><i class="short"></i></div>
+        <div class="rn-rc-section">EXPERIENCE</div>
+        <div class="rn-rc-job">Lead Customer Service Agent</div>
+        <div class="rn-rc-meta">Alaska Airlines | Seattle, WA · May 2019 — Current</div>
+        <div class="rn-rc-lines"><i></i><i></i><i class="short"></i></div>
+        <div class="rn-rc-job">Customer Support Associate</div>
+        <div class="rn-rc-meta">Everett Transit | Everett, WA · June 2018 — May 2019</div>
+        <div class="rn-rc-lines"><i></i><i class="short"></i></div>
+        <div class="rn-rc-section">EDUCATION</div>
+        <div class="rn-rc-job">Bachelor of Arts — Communication</div>
+        <div class="rn-rc-meta">University of Washington, Seattle, WA · May 2017</div>
+      </div>
+      <!-- Sidebar score card -->
+      <div class="rn-score-card">
+        <div class="rn-score-label">Event #8016</div>
+        <div class="rn-score-lines"><i></i><i></i><i class="short"></i></div>
+        <div class="rn-score-section">SKILLS</div>
+        <div class="rn-score-lines"><i></i><i></i><i></i><i></i><i></i><i class="short"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SOCIAL PROOF / TRUSTPILOT STRIP ========== -->
+<section class="rn-trust-strip">
+  <div class="container rn-trust-inner">
+    <h2 class="rn-trust-title">What our customers say about Resumsky</h2>
+    <div class="rn-reviews-box">
+      <!-- Overall rating -->
+      <div class="rn-overall-rating">
+        <div class="rn-rating-label">Great</div>
+        <div class="rn-stars">
+          <span class="rn-star filled">★</span><span class="rn-star filled">★</span><span class="rn-star filled">★</span><span class="rn-star filled">★</span><span class="rn-star half">★</span>
+        </div>
+        <div class="rn-rating-count">Based on <a href="#">1,361 reviews</a></div>
+        <div class="rn-trustpilot-badge">
+          <span class="rn-tp-icon">★</span> Trustpilot
+        </div>
+      </div>
+      <!-- Review cards -->
+      <div class="rn-reviews-carousel" id="reviews-carousel">
+        <div class="rn-review-card">
+          <div class="rn-review-stars"><span>★★★★★</span></div>
+          <div class="rn-reviewer-name">Maria Mohr, <span>2 days ago</span></div>
+          <div class="rn-review-title">I highly recommend this webpage</div>
+          <div class="rn-review-text">I highly recommend this webpage. It is easy to navigate and help me a lot to…</div>
+          <div class="rn-review-note">Showing our 5 star reviews</div>
+        </div>
+        <div class="rn-review-card">
+          <div class="rn-review-stars"><span>★★★★★</span> <span class="rn-verified">✓ Verified</span></div>
+          <div class="rn-reviewer-name">Ardel Simpson, <span>12 September</span></div>
+          <div class="rn-review-title">They did just what they said and…</div>
+          <div class="rn-review-text">They did just what they said and gave me a clean, concise and coherent…</div>
+        </div>
+        <div class="rn-review-card">
+          <div class="rn-review-stars"><span>★★★★★</span></div>
+          <div class="rn-reviewer-name">Brian Sichone, <span>3 September</span></div>
+          <div class="rn-review-title">Everything is good and beneficial</div>
+          <div class="rn-review-text">Everything is good and beneficial, thank for this and it is every much helpful…</div>
+        </div>
+      </div>
+      <button class="rn-carousel-arrow rn-carousel-arrow--right" data-carousel="reviews-carousel" data-direction="1" aria-label="Next reviews">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 3 SIMPLE STEPS ========== -->
+<section class="rn-steps-section">
+  <div class="container">
+    <h2 class="rn-steps-title">Create your resume in 3 simple steps:</h2>
+    <div class="rn-steps-grid">
+      <div class="rn-step rn-step--teal">
+        <div class="rn-step-num">1</div>
+        <h3>Choose a Template</h3>
+        <p>Pick from our professionally designed, ATS-friendly resume templates.</p>
+      </div>
+      <div class="rn-step rn-step--lavender">
+        <div class="rn-step-num">2</div>
+        <h3>Add Your Experience</h3>
+        <p>Fill in your work history, education, and skills using our guided form.</p>
+      </div>
+      <div class="rn-step rn-step--peach">
+        <div class="rn-step-num">3</div>
+        <h3>Download &amp; Apply</h3>
+        <p>Get AI feedback, finalize your resume, and download it as a PDF.</p>
+      </div>
+    </div>
+    <div class="rn-steps-cta">
+      <a class="rn-btn-primary" href="{{ url_for('signup') }}">Build My Resume Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TEMPLATE SHOWCASE ========== -->
+<section class="rn-templates-section">
+  <div class="container">
+    <div class="rn-templates-header">
+      <div>
+        <span class="rn-section-tag">Professional Templates</span>
+        <h2>Choose Your Perfect Resume Template</h2>
+        <p>All templates are recruiter-approved and ATS-compatible.</p>
+      </div>
+      <div class="rn-template-controls">
+        <button type="button" data-carousel="home-template-carousel" data-direction="-1" class="rn-template-arrow" aria-label="Previous templates">‹</button>
+        <button type="button" data-carousel="home-template-carousel" data-direction="1" class="rn-template-arrow" aria-label="Next templates">›</button>
+        <a class="rn-text-link" href="{{ url_for('template_gallery') }}">View all →</a>
+      </div>
+    </div>
+
+    <div class="rn-template-grid template-carousel" id="home-template-carousel">
+      {% for template in templates %}
+      <a class="rn-template-card" href="{{ url_for('template_gallery') }}">
+        <div class="rn-template-paper template-{{ template.id }}">
+          <div class="tp-name">Stella Walker</div>
+          <div class="tp-role">PRODUCT DESIGNER</div>
+          <div class="tp-divider"></div>
+          <div class="tp-section">EXPERIENCE</div><div class="tp-line strong"></div><div class="tp-line"></div><div class="tp-line short"></div>
+          <div class="tp-section">EDUCATION</div><div class="tp-line strong"></div><div class="tp-line short"></div>
+          <div class="tp-section">SKILLS</div><div class="tp-line"></div><div class="tp-line short"></div>
+        </div>
+        <div class="rn-template-footer">
+          <div><b>{{ template.name }}</b><small>{{ template.category }}</small></div>
+          <span class="rn-use-badge">Use This Template</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ========== AI FEATURE / BENEFITS ========== -->
+<section class="rn-ai-section">
+  <div class="container rn-ai-inner">
+    <div class="rn-ai-copy">
+      <span class="rn-section-tag rn-section-tag--light">AI-Powered Review</span>
+      <h2>Get Expert Feedback on Your Resume Instantly</h2>
+      <p>Upload your existing resume and receive a detailed AI analysis covering skills, structure, ATS compatibility, and specific improvement suggestions.</p>
+      <div class="rn-ai-bullets">
+        <div class="rn-ai-bullet">
+          <span class="rn-ai-num">01</span>
+          <div><b>Resume Review</b><small>Clear strengths and prioritized improvement suggestions.</small></div>
+        </div>
+        <div class="rn-ai-bullet">
+          <span class="rn-ai-num">02</span>
+          <div><b>Job Match Analysis</b><small>See where your experience aligns with any role.</small></div>
+        </div>
+        <div class="rn-ai-bullet">
+          <span class="rn-ai-num">03</span>
+          <div><b>ATS Optimization</b><small>Ensure your resume passes applicant tracking systems.</small></div>
+        </div>
+      </div>
+      <a class="rn-btn-primary" href="{{ url_for('signup') }}">Try AI Review Free →</a>
+    </div>
+    <div class="rn-ai-visual">
+      <div class="rn-ai-card">
+        <div class="rn-ai-score-ring">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#00a896" stroke-width="10"
+              stroke-dasharray="326.7" stroke-dashoffset="81.7" stroke-linecap="round"
+              transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="rn-ai-score-text">75<span>/100</span></div>
+        </div>
+        <div class="rn-ai-feedback">
+          <div class="rn-ai-fb-item rn-ai-fb--good">✓ Strong work experience section</div>
+          <div class="rn-ai-fb-item rn-ai-fb--good">✓ Clear education details</div>
+          <div class="rn-ai-fb-item rn-ai-fb--warn">⚠ Add measurable achievements</div>
+          <div class="rn-ai-fb-item rn-ai-fb--bad">✗ Missing LinkedIn profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ TEASER ========== -->
+<section class="rn-faq-section">
+  <div class="container">
+    <div class="rn-faq-inner">
+      <div class="rn-faq-left">
+        <span class="rn-section-tag">Common Questions</span>
+        <h2>Before You Get Started</h2>
+        <a class="rn-text-link" href="{{ url_for('faq') }}">Read all FAQs →</a>
+      </div>
+      <div class="rn-faq-right">
+        <details class="rn-faq-item">
+          <summary>Is Resumsky free to use?</summary>
+          <p>Yes. Resume building, saved resumes, and AI review are currently free to use with no hidden fees.</p>
+        </details>
+        <details class="rn-faq-item">
+          <summary>What happens to the resume I upload for review?</summary>
+          <p>The original PDF or DOCX is deleted immediately after analysis. Your report is saved to your account until you choose to delete it.</p>
+        </details>
+        <details class="rn-faq-item">
+          <summary>Can I download my resume as a PDF?</summary>
+          <p>Yes. Once you've built your resume, you can print it or save it as a PDF directly from your browser.</p>
+        </details>
+        <details class="rn-faq-item">
+          <summary>Are the resume templates ATS-friendly?</summary>
+          <p>All our templates are designed to pass Applicant Tracking Systems used by major employers.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINAL CTA ========== -->
+<section class="rn-final-cta">
+  <div class="container">
+    <div class="rn-final-cta-inner">
+      <div>
+        <h2>Ready to Land Your Dream Job?</h2>
+        <p>Join thousands of job seekers who built their winning resume with Resumsky.</p>
+      </div>
+      <div class="rn-final-cta-btns">
+        <a class="rn-btn-white" href="{{ url_for('template_gallery') }}">Build My Resume</a>
+        <a class="rn-btn-outline-white" href="{{ url_for('signup') }}">Get AI Review</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
